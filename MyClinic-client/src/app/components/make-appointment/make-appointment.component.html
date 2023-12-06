@@ -1,0 +1,7 @@
+<h1>Make an Appointment</h1>
+<form *ngIf="specializations" [formGroup]="specForm">
+    <select name="" id="" formControlName="specialization">
+        <option *ngFor="let s of specializations" [ngValue]="s">{{s.name}}</option>
+    </select>
+    <div>form value {{specForm.value | json}}</div>
+</form>

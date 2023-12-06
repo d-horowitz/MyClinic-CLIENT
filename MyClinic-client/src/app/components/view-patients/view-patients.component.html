@@ -1,1 +1,25 @@
 <h1>Patients <mat-icon color="accent">group</mat-icon> <mat-icon color="primary">group</mat-icon></h1>
+<table class="table table-info table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of patients" [routerLink]="''+p.id">
+            <td>{{p.name}}</td>
+            <td>{{p.id}}</td>
+            <td>{{p.dateOfBirth | date:"dd/MM/YYYY"}}</td>
+            <td>{{p.gender}}</td>
+            <td>{{p.address}}</td>
+            <td>{{p.phone}}</td>
+            <td>{{p.email}}</td>
+        </tr>
+    </tbody>
+</table>
