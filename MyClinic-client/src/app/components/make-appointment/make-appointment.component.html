@@ -1,7 +1,29 @@
 <h1>Make an Appointment</h1>
-<form *ngIf="specializations" [formGroup]="specForm">
-    <select name="" id="" formControlName="specialization">
-        <option *ngFor="let s of specializations" [ngValue]="s">{{s.name}}</option>
+<form *ngIf="specializations" [formGroup]="appForm" class="m-2">
+    <label for="" class="d-block form-label">Select doctor specialization:</label>
+    <select name="" id="" formControlName="specializationId" (change)="getDoctors()" class="form-select w-auto">
+        <option *ngFor="let s of specializations" [ngValue]="s.id">{{s.name}}</option>
     </select>
-    <div>form value {{specForm.value | json}}</div>
+    <div>form value {{appForm.value | json}}</div>
+    <!--div>doctors {{doctors | json}}</div-->
+    <div *ngIf="doctors">
+        <label for="" class="d-block form-label">Select doctor:</label>
+        <select name="" id="" formControlName="doctorId" class="form-select w-auto" (change)="getSchedule()">
+            <option *ngFor="let d of doctors" [ngValue]="d.id">{{d.name}}</option>
+        </select>
+    </div>
+    <div *ngFor="let wd of schedule">
+        <ul>
+            <li>ID: {{wd.id}}</li>
+            <li>Date: {{wd.date}}</li>
+            <li>DoctorId: {{wd.doctorId}}</li>
+            <li>Begin: {{wd.begin}}</li>
+            <li>End: {{wd.end}}</li>
+            <li>
+                <ol>
+                    <li *ngFor="let a of wd.appointments">{{a | json}}</li>
+                </ol>
+            </li>
+        </ul>
+    </div>
 </form>
