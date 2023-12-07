@@ -49,5 +49,6 @@ type appointment = {
   workDayId: number,
   doctorId: number,
   doctorName: string,
-  specialization: string
+  specialization: string,
+  date: string
 }

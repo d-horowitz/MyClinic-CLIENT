@@ -24,35 +24,21 @@
     </tbody>
 </table>
 <h1>Appointments</h1>
-<table class="table table-info table-hover">
-    <thead>
+<table class="table table-info table-striped table-hover">
+    <thead class="table-dark">
         <tr>
-            <th>ID</th>
-            <th>Patient ID</th>
-            <th>Subject</th>
-            <th>Description</th>
+            <th>Date</th>
+            <th>Time</th>
             <th>Created on</th>
-            <th>Cancelled on</th>
-            <th>Begin</th>
-            <th>End</th>
-            <th>WorkDay ID</th>
-            <th>Doctor ID</th>
-            <th>Doctor Name</th>
-            <th>Doctor Specialization</th>
+            <th>Doctor</th>
+            <th>Specialization</th>
         </tr>
     </thead>
     <tbody *ngIf="patient">
         <tr *ngFor="let a of patient.appointments">
-            <td>{{a.id}}</td>
-            <td>{{a.patientId}}</td>
-            <td>{{a.subject}}</td>
-            <td>{{a.description}}</td>
-            <td>{{a.createdDate}}</td>
-            <td>{{a.cancelledDate}}</td>
-            <td>{{a.begin}}</td>
-            <td>{{a.end}}</td>
-            <td>{{a.workDayId}}</td>
-            <td>{{a.doctorId}}</td>
+            <td>{{a.date | date:"EEEE, dd/MM/YYYY"}}</td>
+            <td>{{a.begin.substr(0,5)}} - {{a.end}}</td>
+            <td>{{a.createdDate | date:"dd/MM/YYYY"}}</td>
             <td>{{a.doctorName}}</td>
             <td>{{a.specialization}}</td>
         </tr>

@@ -1,29 +1,39 @@
 <h1>Make an Appointment</h1>
 <form *ngIf="specializations" [formGroup]="appForm" class="m-2">
-    <label for="" class="d-block form-label">Select doctor specialization:</label>
-    <select name="" id="" formControlName="specializationId" (change)="getDoctors()" class="form-select w-auto">
-        <option *ngFor="let s of specializations" [ngValue]="s.id">{{s.name}}</option>
-    </select>
-    <div>form value {{appForm.value | json}}</div>
-    <!--div>doctors {{doctors | json}}</div-->
-    <div *ngIf="doctors">
-        <label for="" class="d-block form-label">Select doctor:</label>
-        <select name="" id="" formControlName="doctorId" class="form-select w-auto" (change)="getSchedule()">
-            <option *ngFor="let d of doctors" [ngValue]="d.id">{{d.name}}</option>
-        </select>
+    <div class="d-flex">
+        <div class="m-2">
+            <label for="" class="d-block form-label">Select doctor specialization:</label>
+            <select name="" id="" formControlName="specializationId" (change)="getDoctors()" class="form-select w-auto">
+                <option *ngFor="let s of specializations" [ngValue]="s.id">{{s.name}}</option>
+            </select>
+        </div>
+        <!--div>doctors {{doctors | json}}</div-->
+        <div *ngIf="doctors" class="m-2">
+            <label for="" class="d-block form-label">Select doctor:</label>
+            <select name="" id="" formControlName="doctorId" class="form-select w-auto" (change)="getSchedule()">
+                <option *ngFor="let d of doctors" [ngValue]="d.id">{{d.name}}</option>
+            </select>
+        </div>
     </div>
-    <div *ngFor="let wd of schedule">
-        <ul>
-            <li>ID: {{wd.id}}</li>
-            <li>Date: {{wd.date}}</li>
-            <li>DoctorId: {{wd.doctorId}}</li>
-            <li>Begin: {{wd.begin}}</li>
-            <li>End: {{wd.end}}</li>
-            <li>
-                <ol>
-                    <li *ngFor="let a of wd.appointments">{{a | json}}</li>
-                </ol>
-            </li>
-        </ul>
+
+    <div class="d-flex flex-wrap">
+        <div *ngFor="let wd of schedule" class="m-2">
+            <table class="table table-primary table-hover">
+                <thead>
+                    <tr>
+                        <th>{{wd.date | date:"EEEE dd/MM/YYYY"}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let a of wd.appointments" [class]="a.patientId?'table-danger':'table-success'">
+                        <td class="p-0">
+                            <button class="btn rounded-0 w-100 border-0" [disabled]="a.patientId" (click)="makeApp(a)">
+                                {{a.begin}} - {{a.end}}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </form>
