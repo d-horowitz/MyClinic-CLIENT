@@ -3,10 +3,35 @@
     <mat-icon class="mat-18" color="primary">home</mat-icon>
     <h2>accent</h2>
     <mat-icon class="mat-18" color="accent">home</mat-icon>
+    <h2>warn</h2>
+    <mat-icon class="mat-18" color="warn">home</mat-icon>
     <h2>light</h2>
     <mat-icon class="mat-18" color="light">home</mat-icon>
 </div>
 <hr />
 <div>
-    <a routerLink="/patients"><button class="btn btn-info">view patients</button></a>
+    <a routerLink="/patients">
+        <button mat-raised-button color="primary"
+            class="btn-dsabld btn-info-dsabld example-ripple-container mat-elevation-z4"><!--matRipple [matRippleColor]="'blue'"-->
+            view
+            patients
+        </button>
+    </a>
 </div>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+</mat-tab-group>
+
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+</mat-tab-group>
+
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+</mat-tab-group>
