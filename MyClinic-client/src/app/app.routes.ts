@@ -8,9 +8,11 @@ import { PatientNavbarComponent } from './components/patient-navbar/patient-navb
 export const routes: Routes = [
     { path: 'home', component: HomeComponent, pathMatch: 'full' },
     { path: 'patients', component: ViewPatientsComponent },
-    { path: 'patients/:id', component: PatientNavbarComponent, children:[
-        {path:'', component:PatientComponent},
-        {path: 'make-an-appointment', component: MakeAppointmentComponent}
-    ] },
-    
+    {
+        path: 'patients/:id', component: PatientNavbarComponent, children: [
+            { path: 'appointments', component: PatientComponent },
+            { path: 'make-an-appointment', component: MakeAppointmentComponent }
+        ]
+    },
+
 ];

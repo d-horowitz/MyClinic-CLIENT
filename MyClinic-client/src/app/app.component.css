@@ -1,0 +1,5 @@
+.mh-100{
+    min-height: 100%;
+    height: fit-content;
+    max-height: fit-content !important;
+}

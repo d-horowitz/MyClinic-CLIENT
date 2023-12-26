@@ -1,28 +1,3 @@
-
-<table class="table table-primary">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>Date of Birth</th>
-            <th>Gender</th>
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngIf="patient">
-            <td>{{patient.name}}</td>
-            <td>{{patient.id}}</td>
-            <td>{{patient.dateOfBirth | date:"dd/MM/YYYY"}}</td>
-            <td>{{patient.gender}}</td>
-            <td>{{patient.address}}</td>
-            <td>{{patient.phone}}</td>
-            <td>{{patient.email}}</td>
-        </tr>
-    </tbody>
-</table>
 <h1>Appointments</h1>
 <table class="table table-info table-striped table-hover">
     <thead class="table-dark">

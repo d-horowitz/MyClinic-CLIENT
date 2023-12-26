@@ -14,7 +14,7 @@ export class PatientComponent implements OnInit {
   patient!: singlePatient;
   constructor(private http: HttpClient, private route: ActivatedRoute) { };
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
+    this.route.parent?.paramMap.subscribe(
       p => {
         const id = p.get("id");
         this.http.get<singlePatient>(`https://localhost:7099/api/patients/${id}`)

@@ -1,37 +1,50 @@
 <div class="d-flex">
     <h2>primary</h2>
-    <mat-icon class="mat-18" color="primary">home</mat-icon>
+    <button mat-icon-button color="primary"><mat-icon class="mat-18">home</mat-icon></button>
+
     <h2>accent</h2>
-    <mat-icon class="mat-18" color="accent">home</mat-icon>
+    <button mat-icon-button color="accent"><mat-icon class="mat-18">home</mat-icon></button>
+
     <h2>warn</h2>
-    <mat-icon class="mat-18" color="warn">home</mat-icon>
-    <h2>light</h2>
-    <mat-icon class="mat-18" color="light">home</mat-icon>
+    <button mat-icon-button color="warn"><mat-icon class="mat-18">home</mat-icon></button>
+
+    <h2>basic</h2>
+    <button mat-icon-button><mat-icon class="mat-18">home</mat-icon></button>
+
+    <h2>disabled</h2>
+    <button mat-icon-button disabled><mat-icon class="mat-18">home</mat-icon></button>
+
 </div>
 <hr />
-<div>
-    <a routerLink="/patients">
-        <button mat-raised-button color="primary"
-            class="btn-dsabld btn-info-dsabld example-ripple-container mat-elevation-z4"><!--matRipple [matRippleColor]="'blue'"-->
-            view
-            patients
-        </button>
+<nav mat-tab-nav-bar [tabPanel]="tabPanely" mat-stretch-tabs="false" mat-align-tabs="start">
+    <a routerLink="/patients" mat-tab-link routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+        View Patients
     </a>
-</div>
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-    <mat-tab label="First">Content 1</mat-tab>
-    <mat-tab label="Second">Content 2</mat-tab>
-    <mat-tab label="Third">Content 3</mat-tab>
-</mat-tab-group>
+</nav>
+<mat-tab-nav-panel #tabPanely></mat-tab-nav-panel>
+<!-- <h1>spacer</h1>
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    @for (link of links; track link) {
+    <a mat-tab-link (click)="activeLink = link" [active]="activeLink == link"> {{link}} </a>
+    }
+    <a mat-tab-link disabled>Disabled Link</a>
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel> -->
 
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-    <mat-tab label="First">Content 1</mat-tab>
+<!-- <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="View Patients">Content 1</mat-tab>
     <mat-tab label="Second">Content 2</mat-tab>
     <mat-tab label="Third">Content 3</mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->
 
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end">
+<!-- <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
     <mat-tab label="First">Content 1</mat-tab>
     <mat-tab label="Second">Content 2</mat-tab>
     <mat-tab label="Third">Content 3</mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->
+
+<!-- <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+</mat-tab-group> -->
