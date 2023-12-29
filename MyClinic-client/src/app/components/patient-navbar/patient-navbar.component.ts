@@ -3,13 +3,14 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
-  selector: 'app-patient-navbar',
-  standalone: true,
-  imports: [RouterModule, MatTabsModule, CommonModule, HttpClientModule],
-  templateUrl: './patient-navbar.component.html',
-  styleUrl: './patient-navbar.component.css'
+    selector: 'app-patient-navbar',
+    standalone: true,
+    templateUrl: './patient-navbar.component.html',
+    styleUrl: './patient-navbar.component.css',
+    imports: [RouterModule, MatTabsModule, CommonModule, HttpClientModule, LoadingComponent]
 })
 export class PatientNavbarComponent {
   patient!: singlePatient;

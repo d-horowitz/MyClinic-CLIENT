@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
-  selector: 'app-view-patients',
-  standalone: true,
-  imports: [MatIconModule, HttpClientModule, CommonModule, RouterModule],
-  templateUrl: './view-patients.component.html',
-  styleUrl: './view-patients.component.css'
+    selector: 'app-view-patients',
+    standalone: true,
+    templateUrl: './view-patients.component.html',
+    styleUrl: './view-patients.component.css',
+    imports: [MatIconModule, HttpClientModule, CommonModule, RouterModule, LoadingComponent]
 })
 export class ViewPatientsComponent implements OnInit {
   patients!: patient[];

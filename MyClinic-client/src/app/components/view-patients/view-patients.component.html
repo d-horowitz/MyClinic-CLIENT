@@ -11,7 +11,7 @@
             <th>Email</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="patients else loading">
         <tr *ngFor="let p of patients" [routerLink]="''+p.id">
             <td>{{p.name}}</td>
             <td>{{p.id}}</td>
@@ -22,4 +22,6 @@
             <td>{{p.email}}</td>
         </tr>
     </tbody>
+    <ng-template #loading><app-loading></app-loading></ng-template>
+
 </table>

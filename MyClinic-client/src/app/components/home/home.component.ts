@@ -6,12 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { ThemePalette } from '@angular/material/core';
+import { LoadingComponent } from "../loading/loading.component";
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [MatIconModule, RouterModule, MatRippleModule, MatButtonModule, MatTabsModule, MatCardModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css',
+    imports: [MatIconModule, RouterModule, MatRippleModule, MatButtonModule, MatTabsModule, MatCardModule, LoadingComponent]
 })
 export class HomeComponent {
   links = ['First', 'Second', 'Third'];

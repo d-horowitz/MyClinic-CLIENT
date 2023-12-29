@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
-  selector: 'app-patient',
-  standalone: true,
-  imports: [HttpClientModule, CommonModule, RouterModule],
-  templateUrl: './patient.component.html',
-  styleUrl: './patient.component.css'
+    selector: 'app-patient',
+    standalone: true,
+    templateUrl: './patient.component.html',
+    styleUrl: './patient.component.css',
+    imports: [HttpClientModule, CommonModule, RouterModule, LoadingComponent]
 })
 export class PatientComponent implements OnInit {
   patient!: singlePatient;
