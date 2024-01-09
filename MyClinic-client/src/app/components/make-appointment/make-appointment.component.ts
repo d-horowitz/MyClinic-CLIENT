@@ -49,7 +49,7 @@ export class MakeAppointmentComponent implements OnInit {
       )
   }
   getSchedule() {
-    this.http.get<workday[]>(`https://localhost:7099/api/doctors/${this.appForm.value.doctorId}/schedule/${new Date().toJSON().split("T")[0]}`)
+    this.http.get<workday[]>(`https://localhost:7099/api/doctors/${this.appForm.value.doctorId}/schedule/${new Date('12/31/2022').toJSON().split("T")[0]}`)
       .subscribe(
         r => {
           this.schedule = r;
@@ -61,7 +61,7 @@ export class MakeAppointmentComponent implements OnInit {
     this.http.put(`https://localhost:7099/api/appointments/${a.id}/make/${this.patientId}`,a )
     .subscribe(
       r=>{
-        console.log(r);
+        //console.log(r);
         this.getSchedule();
       }
     );

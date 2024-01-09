@@ -20,7 +20,7 @@ export class ViewPatientsComponent implements OnInit {
       .subscribe(
         r => {
           this.patients = r;
-          console.log(this.patients);
+          //console.log(this.patients);
         }
       );
   }

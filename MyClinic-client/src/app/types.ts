@@ -1,13 +1,14 @@
 type calendarDay = {
-    dayOfWeek: string,
+    dayOfWeek: number,
     items: calendarDayItem[]
 }
 type calendarDayItem = {
+    text: string,
     begin: string,
     end: string
 }
 type workWeekDay = {
-    dayOfWeek: string,
+    dayOfWeek: number,
     begin: string,
     end: string
 }
@@ -24,7 +25,7 @@ function getWeeklySchedule(doctor: doctor): calendarDay[] {
             const cd: calendarDay = {
                 dayOfWeek: wwd.dayOfWeek,
                 items: [
-                    { begin: wwd.begin, end: wwd.end }
+                    {text:'', begin: wwd.begin, end: wwd.end }
                 ]
             };
             return cd;

@@ -1,4 +1,4 @@
-<p>weekly-calendar works!</p>
-<ul>
-    <li *ngFor="let item of schedule">{{item|json}}</li>
-</ul>
+<div class="d-flex justify-content-evenly m-2">
+    <app-calendar-day *ngFor="let day of schedule" [day]="day"
+        class="border border-3 rounded-3 rounded-bottom-0 w-100"></app-calendar-day>
+</div>

@@ -37,7 +37,7 @@ export class ViewDoctorsComponent {
       .subscribe(
         r => {
           this.doctors = r;
-          console.log(this.doctors);
+          //console.log(this.doctors);
         }
       );
   }

@@ -2,23 +2,33 @@
     <button class="btn btn-info m-2" routerLink="./">Back to patient</button>
     <button class="btn btn-info m-2" routerLink="make-an-appointment">Make an Appointment</button>
 </div> -->
-<table class="table table-primary">
+<table class="table table-primary" *ngIf="doctor else loading">
     <thead>
         <tr>
             <th>Name</th>
             <th>specialization</th>
         </tr>
     </thead>
-    <tbody *ngIf="doctor else loading">
+    <tbody>
         <tr>
             <td>{{doctor.name}}</td>
             <td>{{doctor.specialization}}</td>
         </tr>
     </tbody>
-    <ng-template #loading>
-        <app-loading></app-loading>
-    </ng-template>
 </table>
+<ng-template #loading>
+    <table class="table table-primary">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>specialization</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <app-loading></app-loading>
+</ng-template>
 <nav mat-tab-nav-bar backgroundColor="accent" [tabPanel]="tabPanely" mat-stretch-tabs="false" mat-align-tabs="start">
     <a routerLink="./schedule" mat-tab-link routerLinkActive #rla1="routerLinkActive" [active]="rla1.isActive">
         Schedule

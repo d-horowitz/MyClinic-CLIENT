@@ -21,19 +21,30 @@
 <hr>
 <h1>doctor icon <mat-icon svgIcon="doctor" color="accent"></mat-icon></h1> -->
 <h1>Doctors <mat-icon color="accent">group</mat-icon> <mat-icon color="primary">group</mat-icon></h1>
-<table class="table table-info table-hover">
+<table class="table table-info table-hover" *ngIf="doctors else loading">
     <thead>
         <tr>
             <th>Name</th>
             <th>Specialization</th>
         </tr>
     </thead>
-    <tbody *ngIf="doctors else loading">
+    <tbody>
         <tr *ngFor="let d of doctors" [routerLink]="''+d.id">
             <td>{{d.name}}</td>
             <td>{{d.specialization}}</td>
         </tr>
     </tbody>
-    <ng-template #loading><app-loading></app-loading></ng-template>
 
 </table>
+<ng-template #loading>
+    <table class="table table-info table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <app-loading></app-loading>
+</ng-template>

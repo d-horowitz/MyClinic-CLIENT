@@ -23,7 +23,7 @@ export class DoctorNavbarComponent {
           .subscribe(
             r => {
               this.doctor = r;
-              console.log(r);
+              //console.log(r);
             }
           )
       }

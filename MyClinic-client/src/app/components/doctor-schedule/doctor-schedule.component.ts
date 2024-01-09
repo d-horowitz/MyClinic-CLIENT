@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WeeklyCalendarComponent } from '../weekly-calendar/weekly-calendar.component';
 import { getWeeklySchedule, doctor, calendarDay } from '../../types';
+import { range } from 'rxjs';
 
 @Component({
   selector: 'app-doctor-schedule',
@@ -23,14 +24,21 @@ export class DoctorScheduleComponent {
           .subscribe(
             r => {
               this.doctor = r;
-              console.log(r);
             }
           )
       }
     );
   }
   getSchedule(): calendarDay[] {
-    return getWeeklySchedule(this.doctor)
+    const schedule = getWeeklySchedule(this.doctor);
+    const finalSchedule: calendarDay[] = [];
+    range(0, 6).forEach(element => {
+      if (schedule[0] && schedule[0].dayOfWeek == element)
+        finalSchedule.push(schedule.shift() ?? { dayOfWeek: element, items: [] })
+      else
+        finalSchedule.push({ dayOfWeek: element, items: [] })
+    })
+    return finalSchedule;
   }
 }
 

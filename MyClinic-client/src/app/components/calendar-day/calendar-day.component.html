@@ -1,0 +1,12 @@
+<h3 class="border-bottom border-3 p-2 m-0">{{ day.dayOfWeek | dayName }}</h3>
+<div>
+    <div class="position-relative" [ngStyle]="{'height': day.items| dayHeight }">
+        <mat-card *ngFor="let item of day.items"
+            class="mat-primary rounded-0 border justify-content-evenly align-items-center position-absolute w-100"
+            [ngStyle]="{'height': item.end|timediff:item.begin, 'top': item.begin|timediff:'08:00', 'line-height':'15px'}">
+            <!-- ,'background-color': lesson.subject.color,   , 'height': lesson.end|timediff lesson.start-->
+            <span *ngIf="item.text">{{item.text}}</span>
+            <span>{{item.begin}}-{{item.end}}</span>
+        </mat-card>
+    </div>
+</div>

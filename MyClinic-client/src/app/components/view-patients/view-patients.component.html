@@ -1,5 +1,5 @@
 <h1>Patients <mat-icon color="accent">group</mat-icon> <mat-icon color="primary">group</mat-icon></h1>
-<table class="table table-info table-hover">
+<table class="table table-info table-hover" *ngIf="patients else loading">
     <thead>
         <tr>
             <th>Name</th>
@@ -11,7 +11,7 @@
             <th>Email</th>
         </tr>
     </thead>
-    <tbody *ngIf="patients else loading">
+    <tbody>
         <tr *ngFor="let p of patients" [routerLink]="''+p.id">
             <td>{{p.name}}</td>
             <td>{{p.id}}</td>
@@ -22,6 +22,23 @@
             <td>{{p.email}}</td>
         </tr>
     </tbody>
-    <ng-template #loading><app-loading></app-loading></ng-template>
 
 </table>
+<ng-template #loading>
+    <table class="table table-info table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <app-loading></app-loading>
+</ng-template>

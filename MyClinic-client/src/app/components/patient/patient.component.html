@@ -1,5 +1,5 @@
 <h1>Appointments <span><i class="bi bi-calendar3"></i></span></h1>
-<table class="table table-info table-striped table-hover">
+<table class="table table-info table-striped table-hover" *ngIf="patient else loading">
     <thead class="table-dark">
         <tr>
             <th>Date</th>
@@ -9,7 +9,7 @@
             <th>Specialization</th>
         </tr>
     </thead>
-    <tbody *ngIf="patient else loading">
+    <tbody>
         <tr *ngFor="let a of patient.appointments">
             <td>{{a.date | date:"EEEE, dd/MM/YYYY"}}</td>
             <td>{{a.begin.substr(0,5)}} - {{a.end}}</td>
@@ -18,6 +18,22 @@
             <td>{{a.specialization}}</td>
         </tr>
     </tbody>
-    <ng-template #loading><app-loading></app-loading></ng-template>
-    
+
 </table>
+<ng-template #loading>
+    <table class="table table-info table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Created on</th>
+                <th>Doctor</th>
+                <th>Specialization</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <app-loading></app-loading>
+</ng-template>
+<app-weekly-calendar *ngIf="patient" [schedule]="getSchedule()"></app-weekly-calendar>
