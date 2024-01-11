@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { calendarDay } from '../../types';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { calendarDay, calendarDayItem } from '../../types';
 import { CommonModule } from '@angular/common';
 import { TimediffPipe } from "../../pipes/timediff.pipe";
 import { DayHeightPipe } from "../../pipes/day-height.pipe";
@@ -14,8 +14,32 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   standalone: true,
   imports: [CommonModule, TimediffPipe, DayHeightPipe, DayNamePipe, MatButtonModule, MatTooltipModule, MatCheckboxModule, FormsModule, ReactiveFormsModule],
   templateUrl: './temp.component.html',
-  styleUrl: './temp.component.css'
+  styleUrl: './temp.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class TempComponent {
   @Input() day!: calendarDay;
+  event = {
+    firstEvent: {
+      name: "firstie",
+      startDate: new Date("01/01/2020"),
+      endDate: new Date("01/10/2020")
+    },
+    secondEvent: {
+      name: "secondie",
+      startDate: new Date("02/01/2020"),
+      endDate: new Date("02/10/2020")
+    }
+  }
+  getTooltip(): string {
+    return `Name: ${this.event.firstEvent.name}
+    Start: ${this.event.firstEvent.startDate.toLocaleString()}
+    End: ${this.event.firstEvent.endDate.toLocaleString()}
+
+    ---------------
+
+    Name: ${this.event.secondEvent.name}
+    Start: ${this.event.secondEvent.startDate.toLocaleString()}
+    End: ${this.event.secondEvent.endDate.toLocaleString()}`;
+  }
 }

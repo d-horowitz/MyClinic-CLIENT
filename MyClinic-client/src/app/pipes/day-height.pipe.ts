@@ -16,7 +16,8 @@ export class DayHeightPipe implements PipeTransform {
         return Number(str);
       }
     );
-    return sortedSchedule.length ? timediff.transform(sortedSchedule[0].end, "08:00") : '15px';
+    //return sortedSchedule.length ? timediff.transform(sortedSchedule[0].end, "08:00") : '15px';
+    return timediff.transform("20:30", "08:00");
   }
 
 }

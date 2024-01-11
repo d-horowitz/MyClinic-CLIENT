@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimediffPipe implements PipeTransform {
 
   transform(value: string, args: string): string {
-    return ((hours(value) * 60 + minutes(value) - hours(args) * 60 - minutes(args)) * 2).toString() + 'px';
+    return ((hours(value) * 60 + minutes(value) - hours(args) * 60 - minutes(args)) * 1.5).toString() + 'px';
   }
 
 }

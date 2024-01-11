@@ -1,8 +1,12 @@
 @import url('../../../../node_modules/@angular/material/prebuilt-themes/purple-green.css');
 
-.mat-accent,
-.mat-primary {
-    background-color: var(--mat-option-selected-state-label-text-color);
+.mat-accent.my-accent,
+.mat-primary.my-primary {
+    background-color: var(--mat-option-selected-state-label-text-color) !important;
     /**/
     font-family: cursive;
+}
+
+.my-tooltip {
+    white-space: pre-line;
 }

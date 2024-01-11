@@ -9,7 +9,7 @@ import { DoctorNavbarComponent } from './components/doctor-navbar/doctor-navbar.
 import { DoctorScheduleComponent } from './components/doctor-schedule/doctor-schedule.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent, pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
     { path: 'patients', component: ViewPatientsComponent },
     {
         path: 'patients/:id', component: PatientNavbarComponent, children: [

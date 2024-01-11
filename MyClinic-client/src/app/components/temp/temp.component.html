@@ -1,4 +1,14 @@
-<button mat-raised-button class="demo-button" [matTooltip]="'line1\nline2'" matTooltipPosition="above"
+<button mat-raised-button class="demo-button" [matTooltip]="getTooltip()" matTooltipPosition="above"
     aria-label="Button that displays a tooltip when focused or hovered over">
     {{day.dayOfWeek | dayName}}
 </button>
+<button mat-raised-button [matTooltip]="'Info\n         about\n the action'"
+    matTooltipClass="example-tooltip-uppercase my-tooltip" aria-label="Button that shows a red tooltip"
+    class="example-button">
+    multiline
+</button>
+
+<div [matTooltip]="getTooltip()" matTooltipClass="my-tooltip" aria-label="Button that shows a red tooltip"
+    class="bg-primary">
+    events
+</div>
