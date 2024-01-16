@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { WeeklyCalendarComponent } from '../weekly-calendar/weekly-calendar.component';
-import { getWeeklySchedule, doctor, calendarDay } from '../../types';
+import { WeeklyCalendarComponent } from "../weekly-calendar/weekly-calendar.component";
+import { calendarDay, calendarDayItem, workDay } from '../../types';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { range } from 'rxjs';
 
 @Component({
@@ -11,34 +11,55 @@ import { range } from 'rxjs';
   standalone: true,
   templateUrl: './doctor-schedule.component.html',
   styleUrl: './doctor-schedule.component.css',
-  imports: [HttpClientModule, RouterModule, CommonModule, WeeklyCalendarComponent,]
+  imports: [CommonModule, WeeklyCalendarComponent]
 })
 export class DoctorScheduleComponent {
-  doctor!: doctor;
+  workDays!: workDay[];
+  date = new Date();
+  calendarDays: calendarDay[] = [];
   constructor(private http: HttpClient, private route: ActivatedRoute) { };
   ngOnInit(): void {
+    this.updateDate();
+  }
+  updateDate() {
     this.route.parent?.paramMap.subscribe(
       p => {
         const id = p.get("id");
-        this.http.get<doctor>(`https://localhost:7099/api/doctors/${id}`)
+        this.http.get<workDay[]>(`https://localhost:7099/api/Doctors/${id}/schedule/${this.date.toISOString().substring(0, 10)}`)
           .subscribe(
             r => {
-              this.doctor = r;
+              this.workDays = r;
+              this.setSchedule();
             }
           )
       }
     );
   }
-  getSchedule(): calendarDay[] {
-    const schedule = getWeeklySchedule(this.doctor);
-    const finalSchedule: calendarDay[] = [];
+  setSchedule() {
+    this.calendarDays = [];
+    const schedule = this.workDays.map(wd => {
+      const cd: calendarDay = {
+        dayOfWeek: new Date(wd.date).getDay(),
+        items: wd.appointments.map(ap => {
+          const item: calendarDayItem = {
+            begin: ap.begin,
+            end: ap.end,
+            text: ``,
+            tooltip: ap.patientId ? `patient ID: ${ap.patientId}` : ''
+          };
+          return item;
+        })
+      };
+      return cd;
+    });
     range(0, 6).forEach(element => {
       if (schedule[0] && schedule[0].dayOfWeek == element)
-        finalSchedule.push(schedule.shift() ?? { dayOfWeek: element, items: [] })
+        this.calendarDays.push(schedule.shift() ?? { dayOfWeek: element, items: [] })
       else
-        finalSchedule.push({ dayOfWeek: element, items: [] })
-    })
-    return finalSchedule;
+        this.calendarDays.push({ dayOfWeek: element, items: [] })
+    });
+  }
+  before() {
+    //this.date = this.date.
   }
 }
-

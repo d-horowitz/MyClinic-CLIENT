@@ -20,6 +20,26 @@ type doctor = {
     specialization: string,
     workWeekDays: workWeekDay[]
 }
+type appointment = {
+    begin: string,
+    createdDate: string,
+    description: string,
+    end: string,
+    id: number,
+    patientId: number,
+    subject: string,
+    workDayId: number
+}
+
+type workDay = {
+    appointments: appointment[],
+    begin: string,
+    date: string,
+    doctorId: number,
+    end: string,
+    id: number
+}
+
 function getWeeklySchedule(doctor: doctor): calendarDay[] {
     return doctor.workWeekDays.map(
         wwd => {
@@ -34,5 +54,5 @@ function getWeeklySchedule(doctor: doctor): calendarDay[] {
     )
 }
 export {
-    calendarDay, calendarDayItem, workWeekDay, doctor, getWeeklySchedule
+    calendarDay, calendarDayItem, workWeekDay, doctor, getWeeklySchedule, workDay
 }

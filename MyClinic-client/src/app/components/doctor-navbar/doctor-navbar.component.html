@@ -30,13 +30,12 @@
     <app-loading></app-loading>
 </ng-template>
 <nav mat-tab-nav-bar backgroundColor="accent" [tabPanel]="tabPanely" mat-stretch-tabs="false" mat-align-tabs="start">
-    <a routerLink="./schedule" mat-tab-link routerLinkActive #rla1="routerLinkActive" [active]="rla1.isActive">
+    <a routerLink="./weekly-schedule" mat-tab-link routerLinkActive #rla1="routerLinkActive" [active]="rla1.isActive">
+        Weekly Schedule
+    </a>
+    <a routerLink="./schedule" mat-tab-link routerLinkActive #rla2="routerLinkActive" [active]="rla2.isActive">
         Schedule
     </a>
-    <!-- <a routerLink="./make-an-appointment" mat-tab-link routerLinkActive #rla2="routerLinkActive"
-        [active]="rla2.isActive">
-        Make an Appointment
-    </a> -->
 </nav>
 <mat-tab-nav-panel #tabPanely></mat-tab-nav-panel>
 <router-outlet></router-outlet>

@@ -1,21 +1,30 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { calendarDay } from '../../types';
 import { CommonModule } from '@angular/common';
 import { CalendarDayComponent } from "../calendar-day/calendar-day.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import { TempComponent } from "../temp/temp.component";
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-weekly-calendar',
   standalone: true,
   templateUrl: './weekly-calendar.component.html',
   styleUrl: './weekly-calendar.component.css',
-  imports: [CommonModule, CalendarDayComponent, MatButtonModule, MatTooltipModule, TempComponent]
+  imports: [CommonModule, CalendarDayComponent, MatButtonModule, MatTooltipModule, MatIconModule]
 })
 export class WeeklyCalendarComponent {
   @Input() schedule!: calendarDay[];
+  @Output() beforeClicked:EventEmitter<void> = new EventEmitter();
+  @Output() nextClicked:EventEmitter<void> = new EventEmitter();
   track(index: number, cd: calendarDay) {
     return cd.dayOfWeek;
+  }
+  before(){
+    this.beforeClicked.emit();
+  }
+  
+  next(){
+    this.nextClicked.emit();
   }
 }

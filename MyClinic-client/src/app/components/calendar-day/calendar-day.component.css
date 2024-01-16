@@ -1,7 +1,8 @@
 @import url('../../../../node_modules/@angular/material/prebuilt-themes/purple-green.css');
 
 .mat-accent.my-accent,
-.mat-primary.my-primary {
+.mat-primary.my-primary,
+.mat-warn.my-warn {
     background-color: var(--mat-option-selected-state-label-text-color) !important;
     /**/
     font-family: cursive;

@@ -6,6 +6,7 @@ import { MakeAppointmentComponent } from './components/make-appointment/make-app
 import { PatientNavbarComponent } from './components/patient-navbar/patient-navbar.component';
 import { ViewDoctorsComponent } from './components/view-doctors/view-doctors.component';
 import { DoctorNavbarComponent } from './components/doctor-navbar/doctor-navbar.component';
+import { DoctorWeeklyScheduleComponent } from './components/doctor-weekly-schedule/doctor-weekly-schedule.component';
 import { DoctorScheduleComponent } from './components/doctor-schedule/doctor-schedule.component';
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
     { path: 'doctors', component: ViewDoctorsComponent },
     {
         path: 'doctors/:id', component: DoctorNavbarComponent, children: [
+            { path: 'weekly-schedule', component: DoctorWeeklyScheduleComponent },
             { path: 'schedule', component: DoctorScheduleComponent }
         ]
     }
