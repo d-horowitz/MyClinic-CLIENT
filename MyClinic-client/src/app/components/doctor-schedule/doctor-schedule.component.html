@@ -1,3 +1,15 @@
-<h1>Schedule {{date | date:"dd/MM/yyyy"}}</h1>
+<h1>
+    Schedule {{date | date:"dd/MM/yyyy"}}
+
+        <input matInput [matDatepicker]="datepicker" class="visually-hidden" (dateChange)="datechange()">
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply (click)="changeDate()">Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+
+</h1>
 <app-weekly-calendar *ngIf="workDays" [schedule]="calendarDays" (beforeClicked)="before()"
     (nextClicked)="next()"></app-weekly-calendar>

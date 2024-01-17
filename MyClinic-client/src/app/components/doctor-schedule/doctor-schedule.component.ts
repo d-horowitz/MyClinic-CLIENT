@@ -5,13 +5,16 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { range } from 'rxjs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-doctor-schedule',
   standalone: true,
   templateUrl: './doctor-schedule.component.html',
   styleUrl: './doctor-schedule.component.css',
-  imports: [CommonModule, WeeklyCalendarComponent]
+  imports: [CommonModule, WeeklyCalendarComponent, MatDatepickerModule, MatNativeDateModule, MatButtonModule]
 })
 export class DoctorScheduleComponent {
   workDays!: workDay[];
@@ -20,6 +23,12 @@ export class DoctorScheduleComponent {
   constructor(private http: HttpClient, private route: ActivatedRoute) { };
   ngOnInit(): void {
     this.updateDate();
+  }
+  datechange(){
+    alert('bye')
+  }
+  changeDate(){
+    alert('hi')
   }
   setToSunday(param: Date): Date {
     const temp = new Date(param);
@@ -81,7 +90,7 @@ export class DoctorScheduleComponent {
     const tempDate = new Date(this.date);
     tempDate.setDate(this.date.getDate() + 7);
     this.date = tempDate;
-    
+
     this.updateDate();
   }
 }
