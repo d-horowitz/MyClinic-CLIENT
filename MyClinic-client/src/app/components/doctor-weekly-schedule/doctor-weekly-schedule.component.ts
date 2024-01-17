@@ -34,9 +34,9 @@ export class DoctorWeeklyScheduleComponent {
     const finalSchedule: calendarDay[] = [];
     range(0, 6).forEach(element => {
       if (schedule[0] && schedule[0].dayOfWeek == element)
-        finalSchedule.push(schedule.shift() ?? { dayOfWeek: element, items: [] })
+        finalSchedule.push(schedule.shift() ?? { date: undefined, dayOfWeek: element, items: [] })
       else
-        finalSchedule.push({ dayOfWeek: element, items: [] })
+        finalSchedule.push({ date: undefined, dayOfWeek: element, items: [] })
     })
     return finalSchedule;
   }

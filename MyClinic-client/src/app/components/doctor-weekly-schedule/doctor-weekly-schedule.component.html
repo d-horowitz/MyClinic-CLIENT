@@ -1,2 +1,2 @@
 <h1>Weekly Schedule</h1>
-<app-weekly-calendar *ngIf="doctor" [schedule]="getSchedule()"></app-weekly-calendar>
+<app-weekly-calendar *ngIf="doctor" [schedule]="getSchedule()" [disableBefore]="true" [disableNext]="true"></app-weekly-calendar>

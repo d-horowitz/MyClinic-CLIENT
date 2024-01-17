@@ -15,6 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class WeeklyCalendarComponent {
   @Input() schedule!: calendarDay[];
+  @Input() disableBefore: boolean = false;
+  @Input() disableNext: boolean = false;
   @Output() beforeClicked:EventEmitter<void> = new EventEmitter();
   @Output() nextClicked:EventEmitter<void> = new EventEmitter();
   track(index: number, cd: calendarDay) {

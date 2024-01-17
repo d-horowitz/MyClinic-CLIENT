@@ -1,9 +1,10 @@
 type calendarDay = {
+    date: string | undefined,
     dayOfWeek: number,
     items: calendarDayItem[]
 }
 type calendarDayItem = {
-    tooltip: string
+    tooltip: string,
     text: string,
     begin: string,
     end: string
@@ -44,6 +45,7 @@ function getWeeklySchedule(doctor: doctor): calendarDay[] {
     return doctor.workWeekDays.map(
         wwd => {
             const cd: calendarDay = {
+                date: undefined,
                 dayOfWeek: wwd.dayOfWeek,
                 items: [
                     { tooltip: '', text: '', begin: wwd.begin, end: wwd.end }

@@ -1,10 +1,12 @@
-<div class="d-flex justify-content-evenly align-items-center m-2">
-    <button mat-fab color="accent" aria-label="Example icon button with a plus one icon" (click)="before()">
+<div class="d-flex justify-content-evenly m-2"> <!--align-items-center-->
+    <button [disabled]="disableBefore" mat-fab color="accent" aria-label="Example icon button with a plus one icon"
+        (click)="before()">
         <mat-icon>navigate_before</mat-icon>
     </button>
     <app-calendar-day *ngFor="let day of schedule; trackBy:track" [day]="day"
         class="border border-3 rounded-3 rounded-bottom-0 w-100"></app-calendar-day>
-    <button disabled="true" mat-fab color="accent" aria-label="Example icon button with a plus one icon" (click)="next()">
+    <button [disabled]="disableNext" mat-fab color="accent" aria-label="Example icon button with a plus one icon"
+        (click)="next()">
         <mat-icon>navigate_next</mat-icon>
     </button>
 </div>

@@ -33,10 +33,10 @@ export class PatientComponent implements OnInit {
   getSchedule(): calendarDay[] {
     const schedule: calendarDay[] = [];
     range(0, 6).forEach(element => {
-      const cd: calendarDay = { dayOfWeek: element, items: [] };
+      const cd: calendarDay = { date: undefined, dayOfWeek: element, items: [] };
       this.patient.appointments.forEach(ap => {
         if (new Date(ap.date).getDay() == element) {
-          cd.items.push({ tooltip:`Doctor: ${ap.doctorName}\nSpecialization: ${ap.specialization}`, text: '', begin: ap.begin, end: ap.end })
+          cd.items.push({ tooltip: `Doctor: ${ap.doctorName}\nSpecialization: ${ap.specialization}`, text: '', begin: ap.begin, end: ap.end })
         }
       })
       schedule.push(cd);
