@@ -5,6 +5,12 @@
 .mat-warn.my-warn {
     background-color: var(--mat-option-selected-state-label-text-color) !important;
     /**/
+    /*font-family: cursive;*/
+}
+
+mat-card.mat-accent.my-accent,
+mat-card.mat-primary.my-primary,
+mat-card.mat-warn.my-warn {
     font-family: cursive;
 }
 

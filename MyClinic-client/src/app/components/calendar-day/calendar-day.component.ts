@@ -21,8 +21,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class CalendarDayComponent {
   @Input() day!: calendarDay;
 
-  track(index: number, cd: calendarDayItem) {
-    return index;
+  track(index: number, cdi: calendarDayItem) {
+    return cdi.id;
   }
   event = {
     firstEvent: {

@@ -10,14 +10,28 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DateAddPipe } from "../../pipes/date-add.pipe";
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input'
 
 @Component({
-    selector: 'app-doctor-schedule',
-    standalone: true,
-    templateUrl: './doctor-schedule.component.html',
-    styleUrl: './doctor-schedule.component.css',
-    providers: [DatePipe, DateAddPipe],
-    imports: [CommonModule, WeeklyCalendarComponent, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatTooltipModule, DateAddPipe]
+  selector: 'app-doctor-schedule',
+  standalone: true,
+  templateUrl: './doctor-schedule.component.html',
+  styleUrl: './doctor-schedule.component.css',
+  providers: [DatePipe, DateAddPipe],
+  imports: [
+    CommonModule,
+    WeeklyCalendarComponent,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
+    MatTooltipModule,
+    DateAddPipe,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule
+  ]
 })
 export class DoctorScheduleComponent {
   workDays!: workDay[];
@@ -49,6 +63,7 @@ export class DoctorScheduleComponent {
           .subscribe(
             r => {
               this.workDays = r;
+              console.log(r);
               this.setSchedule();
             }
           )
@@ -63,6 +78,7 @@ export class DoctorScheduleComponent {
         dayOfWeek: new Date(wd.date).getDay(),
         items: wd.appointments.map(ap => {
           const item: calendarDayItem = {
+            id: ap.id,
             begin: ap.begin,
             end: ap.end,
             text: ``,

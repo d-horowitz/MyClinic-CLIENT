@@ -1,0 +1,84 @@
+/* .demo-table {
+    width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1.6px solid transparent;
+    border-top: 1.6px solid transparent;
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+    /* border-top-width: 1.6px; */
+/* opacity: 0.3; */
+/* }
+
+.demo-row-is-clicked {
+    font-weight: bold;
+}  */
+/*.mat-mdc-row {
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
+    cursor: pointer;
+}*/
+
+/*.mat-mdc-row:hover {*/
+/*border-color: blueviolet;*/
+/* background-color: red; */
+/*}*/
+
+/*.mat-mdc-row:hover:not(:nth-child(1)) {
+    border-top-width: 2.4px;
+}*/
+
+
+
+
+
+.demo-table {
+    width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+    font-weight: bold;
+}
+
+
+
+
+
+.example-ripple-container {
+    cursor: pointer;
+    text-align: center;
+
+    width: 300px;
+    height: 300px;
+    line-height: 300px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/** Styles to make the demo look better. */
+.example-ripple-checkbox {
+    margin: 6px 12px 6px 0;
+}
+
+.example-ripple-form-field {
+    margin: 0 12px 0 0;
+}
