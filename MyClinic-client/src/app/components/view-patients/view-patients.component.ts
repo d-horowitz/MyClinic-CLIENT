@@ -48,9 +48,9 @@ export class ViewPatientsComponent implements OnInit {
         }
       );
   }
-  goToPatient(row: number) {
+  goToPatient(patient: number) {
     //alert("hi");
-    this.router.navigate(['/patients/', row]);
+    this.router.navigate(['/patients/', patient]);
   }
 }
 type patient = {
