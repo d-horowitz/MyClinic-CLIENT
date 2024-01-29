@@ -24,6 +24,16 @@
     </tbody>
 
 </table-->
+<form [formGroup]="formData" (ngSubmit)="goToPatient(formData.controls['patientId'].value)">
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>Enter Patient ID number</mat-label>
+    <input type="number" name="patientid" matInput placeholder="E.G. 123456789" [formControlName]="'patientId'">
+    <mat-icon matSuffix>perm_identity</mat-icon>
+    <!-- <mat-hint>Hint</mat-hint> -->
+    <mat-error>This is a required field</mat-error>
+  </mat-form-field>
+  <button type="submit" mat-raised-button color="accent" class="m-2">Go</button>
+</form>
 <ng-template #loading>
   <app-loading></app-loading>
 </ng-template>
@@ -66,7 +76,6 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns" class="fw-bold"></tr>
 
-  <tr mat-row (click)="goToPatient(row)"
-    *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row (click)="goToPatient(row.id)" *matRowDef="let row; columns: displayedColumns;"></tr>
 
 </table>
