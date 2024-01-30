@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { WeeklyCalendarComponent } from "../weekly-calendar/weekly-calendar.component";
-import { calendarDay, calendarDayItem, workDay } from '../../types';
+import { calendarDay, calendarDayItem, setToSunday, workDay } from '../../types';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -35,7 +35,7 @@ import { MatInputModule } from '@angular/material/input'
 })
 export class DoctorScheduleComponent {
   workDays!: workDay[];
-  date = this.setToSunday(new Date());
+  date = setToSunday(new Date());
   calendarDays: calendarDay[] = [];
   constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe) { };
   ngOnInit(): void {
@@ -45,16 +45,10 @@ export class DoctorScheduleComponent {
     //alert('bye');
     //console.log(e);
     //alert(this.datePipe.transform(e.value, "EEEE, dd/MM/yyyy"));//).transform(e.value));
-    this.date = this.setToSunday(new Date(e.value));
+    this.date = setToSunday(new Date(e.value));
     this.updateDate();
   }
-  setToSunday(param: Date): Date {
-    const temp = new Date(param);
-    while (temp.getDay() != 0) {
-      temp.setDate(temp.getDate() - 1);
-    };
-    return temp;
-  }
+  
   updateDate() {
     this.route.parent?.paramMap.subscribe(
       p => {

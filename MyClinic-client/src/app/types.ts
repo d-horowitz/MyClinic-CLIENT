@@ -30,7 +30,9 @@ type appointment = {
     id: number,
     patientId: number,
     subject: string,
-    workDayId: number
+    workDayId: number,
+    doctor: string,
+    specialization: string
 }
 
 type workDay = {
@@ -40,6 +42,11 @@ type workDay = {
     doctorId: number,
     end: string,
     id: number
+}
+
+type patientDay = {
+    date: Date,
+    appointments: appointment[]
 }
 
 function getWeeklySchedule(doctor: doctor): calendarDay[] {
@@ -56,6 +63,13 @@ function getWeeklySchedule(doctor: doctor): calendarDay[] {
         }
     )
 }
+function setToSunday(param: Date): Date {
+    const temp = new Date(param);
+    while (temp.getDay() != 0) {
+        temp.setDate(temp.getDate() - 1);
+    };
+    return temp;
+}
 export {
-    calendarDay, calendarDayItem, workWeekDay, doctor, getWeeklySchedule, workDay
+    calendarDay, calendarDayItem, workWeekDay, doctor, getWeeklySchedule, workDay, setToSunday, patientDay
 }

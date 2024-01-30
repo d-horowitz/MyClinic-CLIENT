@@ -1,39 +1,24 @@
-<h1>Appointments <span><i class="bi bi-calendar3"></i></span></h1>
-<table class="table table-info table-striped table-hover" *ngIf="patient else loading">
-    <thead class="table-dark">
-        <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Created on</th>
-            <th>Doctor</th>
-            <th>Specialization</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let a of patient.appointments">
-            <td>{{a.date | date:"EEEE, dd/MM/YYYY"}}</td>
-            <td>{{a.begin.substr(0,5)}} - {{a.end}}</td>
-            <td>{{a.createdDate | date:"dd/MM/YYYY"}}</td>
-            <td>{{a.doctorName}}</td>
-            <td>{{a.specialization}}</td>
-        </tr>
-    </tbody>
+<h1 class="m-2 mt-0 mb-0">Appointments <span class="m-2 mt-0 mb-0"><i class="bi bi-calendar3"></i></span>
+    
+    {{date | date:"dd/MM/yyyy"}} - {{date|dateAdd:5|date:"dd/MM/yyyy"}}
 
-</table>
-<ng-template #loading>
-    <table class="table table-info table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Created on</th>
-                <th>Doctor</th>
-                <th>Specialization</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <app-loading></app-loading>
-</ng-template>
-<app-weekly-calendar *ngIf="patient" [schedule]="getSchedule()"></app-weekly-calendar>
+    <input matInput [matDatepicker]="datepicker" class="visually-hidden" (dateChange)="datechange($event)">
+
+    <mat-datepicker-toggle matIconSuffix [for]="datepicker" matTooltip="Change Date">
+        <mat-icon matDatepickerToggleIcon color="accent">
+            edit_calendar
+            <!-- <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
+          <mat-icon matDatepickerToggleIcon>home</mat-icon>
+        </button> -->
+
+        </mat-icon>
+
+    </mat-datepicker-toggle>
+    <mat-datepicker #datepicker color="accent">
+        <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="accent" matDatepickerApply>Apply</button>
+        </mat-datepicker-actions>
+    </mat-datepicker>
+</h1>
+<app-weekly-calendar *ngIf="patientDays" [schedule]="calendarDays" (beforeClicked)="before()" (nextClicked)="next()"></app-weekly-calendar>
