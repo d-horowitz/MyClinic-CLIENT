@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { calendarDay, calendarDayItem } from '../../types';
 import { CommonModule } from '@angular/common';
 import { TimediffPipe } from "../../pipes/timediff.pipe";
@@ -20,31 +20,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class CalendarDayComponent {
   @Input() day!: calendarDay;
+  @Output() itemClicked: EventEmitter<number> = new EventEmitter<number>();
 
   track(index: number, cdi: calendarDayItem) {
     return cdi.id;
-  }
-  event = {
-    firstEvent: {
-      name: "firstie",
-      startDate: new Date("01/01/2020"),
-      endDate: new Date("01/10/2020")
-    },
-    secondEvent: {
-      name: "secondie",
-      startDate: new Date("02/01/2020"),
-      endDate: new Date("02/10/2020")
-    }
-  }
-  getTooltip(): string {
-    return `Name: ${this.event.firstEvent.name}
-    Start: ${this.event.firstEvent.startDate.toLocaleString()}
-    End: ${this.event.firstEvent.endDate.toLocaleString()}
-
-    ---------------
-
-    Name: ${this.event.secondEvent.name}
-    Start: ${this.event.secondEvent.startDate.toLocaleString()}
-    End: ${this.event.secondEvent.endDate.toLocaleString()}`;
   }
 }

@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LoadingComponent } from "../loading/loading.component";
 import { WeeklyCalendarComponent } from "../weekly-calendar/weekly-calendar.component";
-import { calendarDay, calendarDayItem, patientDay, setToSunday } from '../../types';
+import { calendarDay, calendarDayItem, appointmentsDay, setToSunday } from '../../types';
 import { range } from 'rxjs';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAddPipe } from '../../pipes/date-add.pipe';
@@ -31,7 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   providers: [DatePipe, DateAddPipe]
 })
 export class PatientComponent implements OnInit {
-  patientDays!: patientDay[];
+  patientDays!: appointmentsDay[];
   date = setToSunday(new Date());
   calendarDays: calendarDay[] = [];
   constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe) { };
@@ -42,7 +42,7 @@ export class PatientComponent implements OnInit {
     this.route.parent?.paramMap.subscribe(
       p => {
         const id = p.get("id");
-        this.http.get<patientDay[]>(`https://localhost:7099/api/Appointments/patient/${id}/from/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
+        this.http.get<appointmentsDay[]>(`https://localhost:7099/api/Appointments/patient/${id}/from/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
           .subscribe(
             r => {
               this.patientDays = r;
@@ -80,8 +80,8 @@ export class PatientComponent implements OnInit {
     //return schedule;
     this.calendarDays = this.patientDays.map(pd => {
       const cd: calendarDay = {
-        date: pd.date.toString(),
-        dayOfWeek: new Date(pd.date).getDay(),
+        date: pd.date,
+        dayOfWeek: pd.dayOfWeek,
         items: pd.appointments.map(app => {
           const cdi: calendarDayItem = {
             id: app.id,

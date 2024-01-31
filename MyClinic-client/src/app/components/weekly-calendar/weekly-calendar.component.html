@@ -1,12 +1,36 @@
+<h1 *ngIf="date" class="m-2 mt-0 mb-0">Calendar <span class="m-2 mt-0 mb-0"><i class="bi bi-calendar3"></i></span>
+
+    {{date | date:"dd/MM/yyyy"}} - {{date|dateAdd:5|date:"dd/MM/yyyy"}}
+
+    <input matInput [matDatepicker]="datepicker" class="visually-hidden" (dateChange)="dateChanged.emit($event)">
+
+    <mat-datepicker-toggle matIconSuffix [for]="datepicker" matTooltip="Change Date">
+        <mat-icon matDatepickerToggleIcon color="accent">
+            edit_calendar
+            <!-- <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
+      <mat-icon matDatepickerToggleIcon>home</mat-icon>
+    </button> -->
+
+        </mat-icon>
+
+    </mat-datepicker-toggle>
+    <mat-datepicker #datepicker color="accent">
+        <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="accent" matDatepickerApply>Apply</button>
+        </mat-datepicker-actions>
+    </mat-datepicker>
+</h1>
+
 <div class="d-flex justify-content-evenly m-2"> <!--align-items-center-->
     <button class="position-sticky top-0" [disabled]="disableBefore" mat-fab color="accent"
-        aria-label="Example icon button with a plus one icon" (click)="before()">
+        (click)="this.beforeClicked.emit()">
         <mat-icon>navigate_before</mat-icon>
     </button>
-    <app-calendar-day *ngFor="let day of schedule; trackBy:track" [day]="day"
+    <app-calendar-day *ngFor="let day of schedule; trackBy:track" [day]="day" (itemClicked)="itemClicked.emit($event)"
         class="border border-3 rounded-3 rounded-bottom-0 w-100"></app-calendar-day>
     <button class="position-sticky top-0" [disabled]="disableNext" mat-fab color="accent"
-        aria-label="Example icon button with a plus one icon" (click)="next()">
+        (click)="this.nextClicked.emit()">
         <mat-icon>navigate_next</mat-icon>
     </button>
 </div>

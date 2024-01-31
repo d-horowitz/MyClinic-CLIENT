@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,27 +6,62 @@ import { ActivatedRoute } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { WeeklyCalendarComponent } from "../weekly-calendar/weekly-calendar.component";
+import { DateAddPipe } from '../../pipes/date-add.pipe';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { appointmentsDay, calendarDay, calendarDayItem, setToSunday } from '../../types';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-make-appointment',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatFormFieldModule],
   templateUrl: './make-appointment.component.html',
-  styleUrl: './make-appointment.component.css'
+  styleUrl: './make-appointment.component.css',
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    WeeklyCalendarComponent,
+    DateAddPipe,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+  ],
+  providers: [DatePipe, DateAddPipe]
 })
 export class MakeAppointmentComponent implements OnInit {
-  specializations!: specialization[];
-  doctors!: doctor[] | null;
+  specializations: specialization[] = [];
+  doctors: doctor[] = [];
   patientId!: string | null;
-  schedule!: workday[] | null;
+  schedule: appointmentsDay[] = [];
+  date = setToSunday(new Date());
+  today = new Date();
+  calendarDays: calendarDay[] = [];
 
   appForm = new FormGroup({
-    specializationId: new FormControl<doctor | null>(null, Validators.required),
-    doctorId: new FormControl()
+    specialization: new FormControl<specialization | null>(null, Validators.required),
+    doctor: new FormControl<doctor | null>(null, Validators.required)
   })
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { };
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private datePipe: DatePipe,
+    private dateAdd: DateAddPipe,
+    public dialog: MatDialog
+  ) { };
   ngOnInit(): void {
     this.route.parent?.paramMap.subscribe(
       p => {
@@ -40,35 +75,92 @@ export class MakeAppointmentComponent implements OnInit {
         }
       )
   }
+
   getDoctors() {
-    //alert("dsdas");
-    this.doctors = null;
-    this.schedule = null;
-    this.appForm.controls.doctorId.setValue(null);
-    this.http.get<doctor[]>(`https://localhost:7099/api/specializations/${this.appForm.value.specializationId?.id}/doctors`)
+    this.doctors = [];
+    this.calendarDays = [];
+    this.appForm.controls.doctor.setValue(null);
+    this.http.get<doctor[]>(`https://localhost:7099/api/specializations/${this.appForm.value.specialization?.id}/doctors`)
       .subscribe(
         r => {
           this.doctors = r;
         }
       )
   }
+
   getSchedule() {
-    this.http.get<workday[]>(`https://localhost:7099/api/doctors/${this.appForm.value.doctorId}/schedule/${new Date('12/31/2022').toJSON().split("T")[0]}`)
+    this.http.get<appointmentsDay[]>(`https://localhost:7099/api/doctors/${this.appForm.value.doctor?.id}/schedule/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
       .subscribe(
         r => {
           this.schedule = r;
+          this.calendarDays = r.map(ad => {
+            const cd: calendarDay = {
+              date: ad.date,
+              dayOfWeek: ad.dayOfWeek,
+              items: ad.appointments.map(app => {
+                const cdi: calendarDayItem = {
+                  id: app.id,
+                  begin: app.begin,
+                  end: app.end,
+                  text: '',
+                  tooltip: app.patientId ? 'reserved' : ''
+                }
+                return cdi;
+              })
+            };
+            return cd;
+          })
         }
       )
   }
-  makeApp(a: appointment) {
-    alert(a.id);
-    this.http.put(`https://localhost:7099/api/appointments/${a.id}/make/${this.patientId}`, a)
-      .subscribe(
-        r => {
-          //console.log(r);
-          this.getSchedule();
-        }
-      );
+
+  datechange(e: MatDatepickerInputEvent<any, any>) {
+    this.date = setToSunday(new Date(e.value));
+    this.getSchedule();
+  }
+
+  before() {
+    this.date = this.dateAdd.transform(this.date, -7);
+    this.getSchedule();
+  }
+
+  next() {
+    this.date = this.dateAdd.transform(this.date, 7);
+    this.getSchedule();
+  }
+
+  makeApp(appId: number) {
+    const day = this.schedule.filter(
+      cd => cd.appointments.filter(
+        ap => ap.id == appId).length == 1
+    )[0];
+    const appiontment = day.appointments.filter(
+      ap => ap.id == appId
+    )[0];
+    const message = `${this.datePipe.transform(day.date, "EEEE, dd/MM/yyyy")}
+${appiontment.begin} - ${appiontment.end}
+${appiontment.doctor}, ${appiontment.specialization} 
+    
+Are you sure you want to make this appointment?`
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: message,
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (!result) return;
+
+      this.http.put(`https://localhost:7099/api/appointments/${appId}/make/${this.patientId}`, appId)
+        .subscribe(
+          r => {
+            //console.log(r);
+            this.getSchedule();
+          }
+        );
+    });
+
+
+
   }
 }
 type specialization = {

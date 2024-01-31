@@ -4,29 +4,38 @@ import { CommonModule } from '@angular/common';
 import { CalendarDayComponent } from "../calendar-day/calendar-day.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAddPipe } from '../../pipes/date-add.pipe';
 
 @Component({
   selector: 'app-weekly-calendar',
   standalone: true,
   templateUrl: './weekly-calendar.component.html',
   styleUrl: './weekly-calendar.component.css',
-  imports: [CommonModule, CalendarDayComponent, MatButtonModule, MatTooltipModule, MatIconModule]
+  imports: [
+    CommonModule,
+    CalendarDayComponent,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    DateAddPipe,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ]
 })
 export class WeeklyCalendarComponent {
   @Input() schedule!: calendarDay[];
   @Input() disableBefore: boolean = false;
   @Input() disableNext: boolean = false;
-  @Output() beforeClicked:EventEmitter<void> = new EventEmitter();
-  @Output() nextClicked:EventEmitter<void> = new EventEmitter();
+  @Input() date: string = '';
+  @Output() dateChanged: EventEmitter<MatDatepickerInputEvent<any, any>> = new EventEmitter<MatDatepickerInputEvent<any, any>>();
+  @Output() beforeClicked: EventEmitter<void> = new EventEmitter();
+  @Output() nextClicked: EventEmitter<void> = new EventEmitter();
+  @Output() itemClicked: EventEmitter<number> = new EventEmitter<number>();
+
   track(index: number, cd: calendarDay) {
     return cd.dayOfWeek;
-  }
-  before(){
-    this.beforeClicked.emit();
-  }
-  
-  next(){
-    this.nextClicked.emit();
   }
 }

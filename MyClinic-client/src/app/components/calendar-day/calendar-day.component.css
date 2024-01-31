@@ -12,6 +12,11 @@ mat-card.mat-accent.my-accent,
 mat-card.mat-primary.my-primary,
 mat-card.mat-warn.my-warn {
     font-family: cursive;
+    cursor: pointer
+}
+
+mat-card.mat-warn.my-warn {
+    cursor: not-allowed;
 }
 
 .my-tooltip {

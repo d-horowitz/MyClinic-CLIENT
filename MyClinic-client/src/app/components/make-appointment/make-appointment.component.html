@@ -1,5 +1,5 @@
 <h1 color="primary">Make an Appointment <span><i class="bi bi-calendar-plus"></i></span></h1>
-<form *ngIf="specializations" [formGroup]="appForm" class="m-2">
+<form *ngIf="specializations.length" [formGroup]="appForm" class="m-2">
     <div class="d-flex">
         <div class="m-2">
             <!--label for="" class="d-block form-label">Select doctor specialization:</label>
@@ -8,42 +8,34 @@
             </select-->
             <mat-form-field>
                 <mat-label>Doctor specialization</mat-label>
-                <mat-select [formControl]="appForm.controls.specializationId" (selectionChange)="getDoctors()">
+                <mat-select [formControl]="appForm.controls.specialization" (selectionChange)="getDoctors()">
                     <mat-option *ngFor="let s of specializations" [value]="s" required>{{s.name}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="appForm.controls.specializationId.hasError('required')">Please choose a doctor
+                <mat-error *ngIf="appForm.controls.specialization.hasError('required')">Please choose a doctor
                     specialization</mat-error>
-                <mat-hint>{{appForm.controls.specializationId.value?.id}}</mat-hint>
+                <mat-hint>{{appForm.controls.specialization.value?.id}}</mat-hint>
             </mat-form-field>
         </div>
 
         <!--div>doctors {{doctors | json}}</div-->
-        <div *ngIf="doctors" class="m-2">
-            <label for="" class="d-block form-label">Select doctor:</label>
+        <div *ngIf="doctors.length" class="m-2">
+            <!--label for="" class="d-block form-label">Select doctor:</label>
             <select name="" id="" formControlName="doctorId" class="form-select w-auto" (change)="getSchedule()">
                 <option *ngFor="let d of doctors" [ngValue]="d.id">{{d.name}}</option>
-            </select>
+            </select-->
+            <mat-form-field>
+                <mat-label>Doctor</mat-label>
+                <mat-select [formControl]="appForm.controls.doctor" (selectionChange)="getSchedule()">
+                    <mat-option *ngFor="let d of doctors" [value]="d" required>{{d.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="appForm.controls.doctor.hasError('required')">Please choose a doctor</mat-error>
+                <mat-hint>{{appForm.controls.doctor.value?.id}}</mat-hint>
+            </mat-form-field>
         </div>
     </div>
 
-    <div class="d-flex flex-wrap">
-        <div *ngFor="let wd of schedule" class="m-2">
-            <table class="table table-primary table-hover">
-                <thead>
-                    <tr>
-                        <th>{{wd.date | date:"EEEE dd/MM/YYYY"}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let a of wd.appointments" [class]="a.patientId?'table-danger':'table-success'">
-                        <td class="p-0">
-                            <button class="btn rounded-0 w-100 border-0" [disabled]="a.patientId" (click)="makeApp(a)">
-                                {{a.begin}} - {{a.end}}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div *ngIf="calendarDays.length">
+        <app-weekly-calendar [date]="date.toString()" (dateChanged)="datechange($event)" (beforeClicked)="before()" (nextClicked)="next()"
+            [disableBefore]="date <=today && false" [schedule]="calendarDays" (itemClicked)="makeApp($event)"></app-weekly-calendar>
     </div>
 </form>

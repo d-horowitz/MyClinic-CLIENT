@@ -44,8 +44,9 @@ type workDay = {
     id: number
 }
 
-type patientDay = {
-    date: Date,
+type appointmentsDay = {
+    date: string,
+    dayOfWeek: number,
     appointments: appointment[]
 }
 
@@ -71,5 +72,5 @@ function setToSunday(param: Date): Date {
     return temp;
 }
 export {
-    calendarDay, calendarDayItem, workWeekDay, doctor, getWeeklySchedule, workDay, setToSunday, patientDay
+    calendarDay, calendarDayItem, workWeekDay, doctor, getWeeklySchedule, workDay, setToSunday, appointmentsDay
 }

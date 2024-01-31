@@ -1,4 +1,4 @@
-<h1>
+<!-- <h1>
   Schedule {{date | date:"dd/MM/yyyy"}} - {{date|dateAdd:5|date:"dd/MM/yyyy"}}
 
   <input matInput [matDatepicker]="datepicker" class="visually-hidden" (dateChange)="datechange($event)">
@@ -6,10 +6,6 @@
   <mat-datepicker-toggle matIconSuffix [for]="datepicker" matTooltip="Change Date">
     <mat-icon matDatepickerToggleIcon color="accent">
       edit_calendar
-      <!-- <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
-        <mat-icon matDatepickerToggleIcon>home</mat-icon>
-      </button> -->
-
     </mat-icon>
     
   </mat-datepicker-toggle>
@@ -19,6 +15,6 @@
       <button mat-raised-button color="accent" matDatepickerApply>Apply</button>
     </mat-datepicker-actions>
   </mat-datepicker>
-</h1>
-<app-weekly-calendar *ngIf="workDays" [schedule]="calendarDays" (beforeClicked)="before()"
+</h1> -->
+<app-weekly-calendar *ngIf="workDays" [date]="date.toString()" (dateChanged)="datechange($event)" [schedule]="calendarDays" (beforeClicked)="before()"
   (nextClicked)="next()"></app-weekly-calendar>

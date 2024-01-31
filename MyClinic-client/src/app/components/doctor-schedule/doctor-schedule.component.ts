@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { WeeklyCalendarComponent } from "../weekly-calendar/weekly-calendar.component";
-import { calendarDay, calendarDayItem, setToSunday, workDay } from '../../types';
+import { appointmentsDay, calendarDay, calendarDayItem, setToSunday, workDay } from '../../types';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -34,7 +34,7 @@ import { MatInputModule } from '@angular/material/input'
   ]
 })
 export class DoctorScheduleComponent {
-  workDays!: workDay[];
+  workDays!: appointmentsDay[];
   date = setToSunday(new Date());
   calendarDays: calendarDay[] = [];
   constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe) { };
@@ -48,16 +48,16 @@ export class DoctorScheduleComponent {
     this.date = setToSunday(new Date(e.value));
     this.updateDate();
   }
-  
+
   updateDate() {
     this.route.parent?.paramMap.subscribe(
       p => {
         const id = p.get("id");
-        this.http.get<workDay[]>(`https://localhost:7099/api/Doctors/${id}/schedule/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
+        this.http.get<appointmentsDay[]>(`https://localhost:7099/api/Doctors/${id}/schedule/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
           .subscribe(
             r => {
               this.workDays = r;
-              console.log(r);
+              //console.log(r);
               this.setSchedule();
             }
           )
@@ -65,8 +65,24 @@ export class DoctorScheduleComponent {
     );
   }
   setSchedule() {
-    this.calendarDays = [];
-    const schedule = this.workDays.map(wd => {
+    this.calendarDays = this.workDays.map(ad => {
+      const cd: calendarDay = {
+        date: ad.date,
+        dayOfWeek: ad.dayOfWeek,
+        items: ad.appointments.map(app => {
+          const cdi: calendarDayItem = {
+            id: app.id,
+            begin: app.begin,
+            end: app.end,
+            text: '',
+            tooltip: app.patientId ? `patient ID: ${app.patientId} doctor: ${app.doctor}` : ''
+          }
+          return cdi;
+        })
+      };
+      return cd;
+    })
+    /*const schedule = this.workDays.map(wd => {
       const cd: calendarDay = {
         date: wd.date,
         dayOfWeek: new Date(wd.date).getDay(),
@@ -90,7 +106,7 @@ export class DoctorScheduleComponent {
       else
         this.calendarDays.push({ date: tempDate.toString(), dayOfWeek: element, items: [] });
       tempDate.setDate(tempDate.getDate() + 1);
-    });
+    });*/
   }
   before() {
     //const tempDate = new Date(this.date);
