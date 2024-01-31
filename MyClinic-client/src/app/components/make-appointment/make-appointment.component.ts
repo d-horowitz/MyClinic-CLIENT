@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-make-appointment',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [HttpClientModule, CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatFormFieldModule],
   templateUrl: './make-appointment.component.html',
   styleUrl: './make-appointment.component.css'
 })
@@ -18,7 +21,7 @@ export class MakeAppointmentComponent implements OnInit {
   schedule!: workday[] | null;
 
   appForm = new FormGroup({
-    specializationId: new FormControl(),
+    specializationId: new FormControl<doctor | null>(null, Validators.required),
     doctorId: new FormControl()
   })
 
@@ -38,10 +41,11 @@ export class MakeAppointmentComponent implements OnInit {
       )
   }
   getDoctors() {
+    //alert("dsdas");
     this.doctors = null;
     this.schedule = null;
     this.appForm.controls.doctorId.setValue(null);
-    this.http.get<doctor[]>(`https://localhost:7099/api/specializations/${this.appForm.value.specializationId}/doctors`)
+    this.http.get<doctor[]>(`https://localhost:7099/api/specializations/${this.appForm.value.specializationId?.id}/doctors`)
       .subscribe(
         r => {
           this.doctors = r;
@@ -58,13 +62,13 @@ export class MakeAppointmentComponent implements OnInit {
   }
   makeApp(a: appointment) {
     alert(a.id);
-    this.http.put(`https://localhost:7099/api/appointments/${a.id}/make/${this.patientId}`,a )
-    .subscribe(
-      r=>{
-        //console.log(r);
-        this.getSchedule();
-      }
-    );
+    this.http.put(`https://localhost:7099/api/appointments/${a.id}/make/${this.patientId}`, a)
+      .subscribe(
+        r => {
+          //console.log(r);
+          this.getSchedule();
+        }
+      );
   }
 }
 type specialization = {

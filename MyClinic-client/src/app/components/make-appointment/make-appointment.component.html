@@ -2,11 +2,21 @@
 <form *ngIf="specializations" [formGroup]="appForm" class="m-2">
     <div class="d-flex">
         <div class="m-2">
-            <label for="" class="d-block form-label">Select doctor specialization:</label>
+            <!--label for="" class="d-block form-label">Select doctor specialization:</label>
             <select name="" id="" formControlName="specializationId" (change)="getDoctors()" class="form-select w-auto">
                 <option *ngFor="let s of specializations" [ngValue]="s.id">{{s.name}}</option>
-            </select>
+            </select-->
+            <mat-form-field>
+                <mat-label>Doctor specialization</mat-label>
+                <mat-select [formControl]="appForm.controls.specializationId" (selectionChange)="getDoctors()">
+                    <mat-option *ngFor="let s of specializations" [value]="s" required>{{s.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="appForm.controls.specializationId.hasError('required')">Please choose a doctor
+                    specialization</mat-error>
+                <mat-hint>{{appForm.controls.specializationId.value?.id}}</mat-hint>
+            </mat-form-field>
         </div>
+
         <!--div>doctors {{doctors | json}}</div-->
         <div *ngIf="doctors" class="m-2">
             <label for="" class="d-block form-label">Select doctor:</label>
