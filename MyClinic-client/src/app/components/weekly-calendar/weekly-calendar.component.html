@@ -14,7 +14,7 @@
         </mat-icon>
 
     </mat-datepicker-toggle>
-    <mat-datepicker #datepicker color="accent">
+    <mat-datepicker #datepicker color="accent" [startAt]="datePipe.transform(date, 'yyyy-MM-dd')">
         <mat-datepicker-actions>
             <button mat-button matDatepickerCancel>Cancel</button>
             <button mat-raised-button color="accent" matDatepickerApply>Apply</button>

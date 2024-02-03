@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { calendarDay } from '../../types';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CalendarDayComponent } from "../calendar-day/calendar-day.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +23,8 @@ import { DateAddPipe } from '../../pipes/date-add.pipe';
     DateAddPipe,
     MatDatepickerModule,
     MatNativeDateModule,
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class WeeklyCalendarComponent {
   @Input() schedule!: calendarDay[];
@@ -34,6 +35,8 @@ export class WeeklyCalendarComponent {
   @Output() beforeClicked: EventEmitter<void> = new EventEmitter();
   @Output() nextClicked: EventEmitter<void> = new EventEmitter();
   @Output() itemClicked: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor(public datePipe: DatePipe) { }
 
   track(index: number, cd: calendarDay) {
     return cd.dayOfWeek;
