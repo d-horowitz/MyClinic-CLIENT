@@ -72,8 +72,8 @@ export class DoctorScheduleComponent {
         items: ad.appointments.map(app => {
           const cdi: calendarDayItem = {
             id: app.id,
-            begin: app.begin,
-            end: app.end,
+            begin: app.begin.substring(0, 5),
+            end: app.end.substring(0, 5),
             text: '',
             tooltip: app.patientId ? `patient ID: ${app.patientId} doctor: ${app.doctor}` : '',
             disabled: app.patientId == null

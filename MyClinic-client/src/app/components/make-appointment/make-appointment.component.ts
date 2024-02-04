@@ -106,8 +106,8 @@ export class MakeAppointmentComponent implements OnInit {
               items: ad.appointments.map(app => {
                 const cdi: calendarDayItem = {
                   id: app.id,
-                  begin: app.begin,
-                  end: app.end,
+                  begin: app.begin.substring(0, 5),
+                  end: app.end.substring(0, 5),
                   text: '',
                   tooltip: app.patientId ? 'reserved' : '',
                   disabled: app.patientId != null
@@ -141,12 +141,14 @@ export class MakeAppointmentComponent implements OnInit {
       cd => cd.appointments.filter(
         ap => ap.id == appId).length == 1
     )[0];
-    const appiontment = day.appointments.filter(
+    const appointment = day.appointments.filter(
       ap => ap.id == appId
     )[0];
+    appointment.begin = appointment.begin.substring(0,5)
+    appointment.end = appointment.end.substring(0,5)
     const message = `${this.datePipe.transform(day.date, "EEEE, dd/MM/yyyy")}
-${appiontment.begin} - ${appiontment.end}
-${appiontment.doctor}, ${appiontment.specialization} 
+${appointment.begin} - ${appointment.end}
+${appointment.doctor}, ${appointment.specialization} 
     
 Are you sure you want to make this appointment?`
 
@@ -166,14 +168,14 @@ Are you sure you want to make this appointment?`
         .subscribe(
           {
             next: r => {
-              this.snackBar.open('✔️ Appointment made successfully.', 'OK', {
+              this.snackBar.open('✔️ Appointment made successfully', 'OK', {
                 duration: 5000,
                 verticalPosition: 'top'
               });
               this.getSchedule();
             },
             error: (err) => {
-              this.snackBar.open('❌ ERROR! Appointment was not made successfully.', 'OK', {
+              this.snackBar.open('❌ ERROR! Appointment was not made successfully', 'OK', {
                 duration: 5000,
                 verticalPosition: 'top'
               })

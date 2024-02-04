@@ -27,7 +27,7 @@
             *ngFor="let item of day.items;trackBy:track"
             [ngStyle]="{'height': item.end|timediff:item.begin, 'top': item.begin|timediff:'08:00', 'line-height':'15px'}">
             <!-- matTooltipPositionAtOrigin="true" -->
-            {{item.begin.substring(0,5)}} - {{item.end.substring(0,5)}}
+            {{item.begin}} - {{item.end}}
         </button>
         <!-- <mat-card 
          [ngClass]="{

@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-patient',
@@ -36,8 +37,22 @@ export class PatientComponent implements OnInit {
   patientDays!: appointmentsDay[];
   date = setToSunday(new Date());
   calendarDays: calendarDay[] = [];
-  constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe, public dialog: MatDialog,) { };
+  patientId!: string;
+
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private datePipe: DatePipe,
+    private dateAdd: DateAddPipe,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { };
   ngOnInit(): void {
+    this.route.parent?.paramMap.subscribe(
+      p => {
+        this.patientId = p.get("id") ?? "";
+      }
+    );
     this.updateDate();
   }
 
@@ -46,17 +61,19 @@ export class PatientComponent implements OnInit {
       cd => cd.appointments.filter(
         ap => ap.id == appId).length == 1
     )[0];
-    const appiontment = day.appointments.filter(
+    const appointment = day.appointments.filter(
       ap => ap.id == appId
     )[0];
+    appointment.begin = appointment.begin.substring(0,5);
+    appointment.end = appointment.end.substring(0,5);
     const message = `${this.datePipe.transform(day.date, "EEEE, dd/MM/yyyy")}
-${appiontment.begin} - ${appiontment.end}
-${appiontment.doctor}, ${appiontment.specialization}
-Created on: ${this.datePipe.transform(appiontment.createdDate, "EEEE, dd/MM/yyyy")}
+${appointment.begin} - ${appointment.end}
+${appointment.doctor}, ${appointment.specialization}
+Created on: ${this.datePipe.transform(appointment.createdDate, "EEEE, dd/MM/yyyy")}
     
-Subject: ${appiontment.subject ?? '(No Subject)'}
+Subject: ${appointment.subject ?? '(No Subject)'}
 Description:
-${appiontment.description ?? '(No Description)'}`
+${appointment.description ?? '(No Description)'}`
 
     //const message = `info about app: ${appId}`
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -66,22 +83,42 @@ ${appiontment.description ?? '(No Description)'}`
         okText: 'Cancel this appointment',
         cancelText: 'Close'
       }
-    })
+    });
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (!result) return;
+        this.cancelAppointment(appId);
+      }
+    )
+  }
+
+  cancelAppointment(appId: number) {
+    this.http.put(`https://localhost:7099/api/Appointments/${appId}/cancel`, { patientId: Number(this.patientId) })
+      .subscribe({
+        next: r => {
+          this.snackBar.open('✔️ Appointment cancelled successfully', 'OK', {
+            duration: 5000,
+            verticalPosition: 'top'
+          });
+          this.updateDate();
+        },
+        error: err => {
+          this.snackBar.open('❌ ERROR! Appointment was not cancelled successfully', 'OK', {
+            duration: 5000,
+            verticalPosition: 'top'
+          });
+        }
+      })
   }
 
   updateDate() {
-    this.route.parent?.paramMap.subscribe(
-      p => {
-        const id = p.get("id");
-        this.http.get<appointmentsDay[]>(`https://localhost:7099/api/Appointments/patient/${id}/from/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
-          .subscribe(
-            r => {
-              this.patientDays = r;
-              this.setSchedule();
-            }
-          )
-      }
-    );
+    this.http.get<appointmentsDay[]>(`https://localhost:7099/api/Appointments/patient/${this.patientId}/from/${this.datePipe.transform(this.date, "yyyy-MM-dd")}`)
+      .subscribe(
+        r => {
+          this.patientDays = r;
+          this.setSchedule();
+        }
+      )
   }
   datechange(e: MatDatepickerInputEvent<any, any>) {
     this.date = setToSunday(new Date(e.value));
@@ -116,10 +153,10 @@ ${appiontment.description ?? '(No Description)'}`
         items: pd.appointments.map(app => {
           const cdi: calendarDayItem = {
             id: app.id,
-            begin: app.begin,
-            end: app.end,
+            begin: app.begin.substring(0, 5),
+            end: app.end.substring(0, 5),
             text: '',
-            tooltip: 'Show appointment info',//`Doctor: ${app.doctor}\nSpecialization: ${app.specialization}`,
+            tooltip: 'Show appointment info',
             disabled: false
           }
           return cdi;
