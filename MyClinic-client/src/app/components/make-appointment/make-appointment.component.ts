@@ -16,6 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { appointmentsDay, calendarDay, calendarDayItem, setToSunday } from '../../types';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-make-appointment',
@@ -60,7 +65,8 @@ export class MakeAppointmentComponent implements OnInit {
     private route: ActivatedRoute,
     private datePipe: DatePipe,
     private dateAdd: DateAddPipe,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { };
   ngOnInit(): void {
     this.route.parent?.paramMap.subscribe(
@@ -103,7 +109,8 @@ export class MakeAppointmentComponent implements OnInit {
                   begin: app.begin,
                   end: app.end,
                   text: '',
-                  tooltip: app.patientId ? 'reserved' : ''
+                  tooltip: app.patientId ? 'reserved' : '',
+                  disabled: app.patientId != null
                 }
                 return cdi;
               })
@@ -144,7 +151,12 @@ ${appiontment.doctor}, ${appiontment.specialization}
 Are you sure you want to make this appointment?`
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: message,
+      data: {
+        title: "Make an Appointment",
+        body: message,
+        cancelText: 'No',
+        okText: "Yes, I want to make this appointment!"
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -152,9 +164,20 @@ Are you sure you want to make this appointment?`
 
       this.http.put(`https://localhost:7099/api/appointments/${appId}/make/${this.patientId}`, appId)
         .subscribe(
-          r => {
-            //console.log(r);
-            this.getSchedule();
+          {
+            next: r => {
+              this.snackBar.open('✔️ Appointment made successfully.', 'OK', {
+                duration: 5000,
+                verticalPosition: 'top'
+              });
+              this.getSchedule();
+            },
+            error: (err) => {
+              this.snackBar.open('❌ ERROR! Appointment was not made successfully.', 'OK', {
+                duration: 5000,
+                verticalPosition: 'top'
+              })
+            },
           }
         );
     });

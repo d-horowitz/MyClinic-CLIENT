@@ -3,18 +3,41 @@
         'mat-primary my-primary rounded-top-2': day.items.length > 0 
     }"><span>{{ day.dayOfWeek | dayName
         }}</span><span>{{day.date|date:"dd/MM/yyyy"}}</span></h3><!---->
-<div>
+<!--div>
     <div class="position-relative" [ngStyle]="{'height': day.items| dayHeight }">
         <mat-card (click)="itemClicked.emit(item.id)" *ngFor="let item of day.items;trackBy:track"
             [matTooltip]="item.tooltip" matTooltipPositionAtOrigin="true" matTooltipClass="my-tooltip" [ngClass]="{
                 'mat-primary my-primary': true,
-                'mat-warn my-warn':item.tooltip!='',
+                'mat-warn my-warn':item.tooltip!='' && warnDisabled,
                 'rounded-0 border justify-content-evenly align-items-center position-absolute w-100':true
             }"
             [ngStyle]="{'height': item.end|timediff:item.begin, 'top': item.begin|timediff:'08:00', 'line-height':'15px'}">
-            <!-- ,'background-color': lesson.subject.color,   , 'height': lesson.end|timediff lesson.start-->
+            <!-- ,'background-color': lesson.subject.color,   , 'height': lesson.end|timediff lesson.start
             <span *ngIf="item.text">{{item.text}}</span>
             <span>{{item.begin}}-{{item.end}}</span>
         </mat-card>
+    </div>
+</div-->
+<div>
+    <div class="position-relative" [ngStyle]="{'height': day.items| dayHeight }">
+        <button mat-raised-button (click)="itemClicked.emit(item.id)"
+            class="w-100 border-1 rounded-0 border-top border-bottom z-0 justify-content-evenly align-items-center position-absolute"
+            [disabled]="item.disabled" [color]="item.tooltip!='' && warnDisabled? 'warn': 'primary'"
+            [matTooltip]="item.tooltip" matTooltipClass="my-tooltip" matTooltipPosition="above"
+            *ngFor="let item of day.items;trackBy:track"
+            [ngStyle]="{'height': item.end|timediff:item.begin, 'top': item.begin|timediff:'08:00', 'line-height':'15px'}">
+            <!-- matTooltipPositionAtOrigin="true" -->
+            {{item.begin.substring(0,5)}} - {{item.end.substring(0,5)}}
+        </button>
+        <!-- <mat-card 
+         [ngClass]="{
+            'mat-primary my-primary': true,
+            'mat-warn my-warn':item.tooltip!='' && warnDisabled,
+            'rounded-0 border w-100':true
+        }"
+        >
+        <span *ngIf="item.text">{{item.text}}</span>
+        <span></span>
+    </mat-card> -->
     </div>
 </div>

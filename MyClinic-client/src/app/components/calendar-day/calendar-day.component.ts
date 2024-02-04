@@ -20,6 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class CalendarDayComponent {
   @Input() day!: calendarDay;
+  @Input() warnDisabled: boolean = false;
   @Output() itemClicked: EventEmitter<number> = new EventEmitter<number>();
 
   track(index: number, cdi: calendarDayItem) {

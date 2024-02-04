@@ -35,7 +35,7 @@
     </div>
 
     <div *ngIf="calendarDays.length">
-        <app-weekly-calendar [date]="date.toString()" (dateChanged)="datechange($event)" (beforeClicked)="before()" (nextClicked)="next()"
+        <app-weekly-calendar [warnDisabled]="true" [date]="date.toString()" (dateChanged)="datechange($event)" (beforeClicked)="before()" (nextClicked)="next()"
             [disableBefore]="date <=today && false" [schedule]="calendarDays" (itemClicked)="makeApp($event)"></app-weekly-calendar>
     </div>
 </form>

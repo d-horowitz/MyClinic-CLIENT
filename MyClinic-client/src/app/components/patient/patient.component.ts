@@ -12,6 +12,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-patient',
@@ -34,10 +36,39 @@ export class PatientComponent implements OnInit {
   patientDays!: appointmentsDay[];
   date = setToSunday(new Date());
   calendarDays: calendarDay[] = [];
-  constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe) { };
+  constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe, public dialog: MatDialog,) { };
   ngOnInit(): void {
     this.updateDate();
   }
+
+  displayAppointment(appId: number) {
+    const day = this.patientDays.filter(
+      cd => cd.appointments.filter(
+        ap => ap.id == appId).length == 1
+    )[0];
+    const appiontment = day.appointments.filter(
+      ap => ap.id == appId
+    )[0];
+    const message = `${this.datePipe.transform(day.date, "EEEE, dd/MM/yyyy")}
+${appiontment.begin} - ${appiontment.end}
+${appiontment.doctor}, ${appiontment.specialization}
+Created on: ${this.datePipe.transform(appiontment.createdDate, "EEEE, dd/MM/yyyy")}
+    
+Subject: ${appiontment.subject ?? '(No Subject)'}
+Description:
+${appiontment.description ?? '(No Description)'}`
+
+    //const message = `info about app: ${appId}`
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Appointment info',
+        body: message,
+        okText: 'Cancel this appointment',
+        cancelText: 'Close'
+      }
+    })
+  }
+
   updateDate() {
     this.route.parent?.paramMap.subscribe(
       p => {
@@ -88,7 +119,8 @@ export class PatientComponent implements OnInit {
             begin: app.begin,
             end: app.end,
             text: '',
-            tooltip: `Doctor: ${app.doctor}\nSpecialization: ${app.specialization}`
+            tooltip: 'Show appointment info',//`Doctor: ${app.doctor}\nSpecialization: ${app.specialization}`,
+            disabled: false
           }
           return cdi;
         })

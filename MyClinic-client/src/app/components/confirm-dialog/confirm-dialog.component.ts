@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {MAT_DIALOG_DATA, MatDialogRef, MatDialogClose, MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogClose, MatDialogActions, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -18,8 +18,13 @@ import {MAT_DIALOG_DATA, MatDialogRef, MatDialogClose, MatDialogActions, MatDial
 export class ConfirmDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: {
+      title: string,
+      body: string,
+      cancelText: string,
+      okText: string
+    },
+  ) { }
 
   noClicked(): void {
     this.dialogRef.close(false);

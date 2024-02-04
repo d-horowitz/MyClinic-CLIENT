@@ -7,12 +7,7 @@
     <mat-datepicker-toggle matIconSuffix [for]="datepicker" matTooltip="Change Date">
         <mat-icon matDatepickerToggleIcon color="accent">
             edit_calendar
-            <!-- <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
-      <mat-icon matDatepickerToggleIcon>home</mat-icon>
-    </button> -->
-
         </mat-icon>
-
     </mat-datepicker-toggle>
     <mat-datepicker #datepicker color="accent" [startAt]="datePipe.transform(date, 'yyyy-MM-dd')">
         <mat-datepicker-actions>
@@ -27,7 +22,8 @@
         (click)="this.beforeClicked.emit()">
         <mat-icon>navigate_before</mat-icon>
     </button>
-    <app-calendar-day *ngFor="let day of schedule; trackBy:track" [day]="day" (itemClicked)="itemClicked.emit($event)"
+    <app-calendar-day [warnDisabled]="warnDisabled" *ngFor="let day of schedule; trackBy:track" [day]="day"
+        (itemClicked)="itemClicked.emit($event)"
         class="border border-3 rounded-3 rounded-bottom-0 w-100"></app-calendar-day>
     <button class="position-sticky top-0" [disabled]="disableNext" mat-fab color="accent"
         (click)="this.nextClicked.emit()">

@@ -31,6 +31,7 @@ export class WeeklyCalendarComponent {
   @Input() disableBefore: boolean = false;
   @Input() disableNext: boolean = false;
   @Input() date: string = '';
+  @Input() warnDisabled: boolean = false;
   @Output() dateChanged: EventEmitter<MatDatepickerInputEvent<any, any>> = new EventEmitter<MatDatepickerInputEvent<any, any>>();
   @Output() beforeClicked: EventEmitter<void> = new EventEmitter();
   @Output() nextClicked: EventEmitter<void> = new EventEmitter();

@@ -1,1 +1,2 @@
-<app-weekly-calendar *ngIf="patientDays" [date]="date.toString()" (dateChanged)="datechange($event)" [schedule]="calendarDays" (beforeClicked)="before()" (nextClicked)="next()"></app-weekly-calendar>
+<app-weekly-calendar *ngIf="patientDays" [date]="date.toString()" (dateChanged)="datechange($event)"
+    [schedule]="calendarDays" (beforeClicked)="before()" (nextClicked)="next()" (itemClicked)="displayAppointment($event)"></app-weekly-calendar>

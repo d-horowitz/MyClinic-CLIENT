@@ -75,7 +75,8 @@ export class DoctorScheduleComponent {
             begin: app.begin,
             end: app.end,
             text: '',
-            tooltip: app.patientId ? `patient ID: ${app.patientId} doctor: ${app.doctor}` : ''
+            tooltip: app.patientId ? `patient ID: ${app.patientId} doctor: ${app.doctor}` : '',
+            disabled: app.patientId == null
           }
           return cdi;
         })
