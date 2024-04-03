@@ -17,4 +17,4 @@
   </mat-datepicker>
 </h1> -->
 <app-weekly-calendar *ngIf="workDays" [date]="date.toString()" (dateChanged)="datechange($event)" [schedule]="calendarDays" (beforeClicked)="before()"
-  (nextClicked)="next()"></app-weekly-calendar>
+  (nextClicked)="next()" (itemClicked)="displayAppointment($event)"></app-weekly-calendar>

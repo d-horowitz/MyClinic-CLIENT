@@ -30,6 +30,7 @@ type appointment = {
     end: string,
     id: number,
     patientId: number,
+    patientName: string,
     subject: string,
     workDayId: number,
     doctor: string,

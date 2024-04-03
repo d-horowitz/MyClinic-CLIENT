@@ -13,6 +13,8 @@ import { DateAddPipe } from "../../pipes/date-add.pipe";
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-doctor-schedule',
@@ -37,7 +39,13 @@ export class DoctorScheduleComponent {
   workDays!: appointmentsDay[];
   date = setToSunday(new Date());
   calendarDays: calendarDay[] = [];
-  constructor(private http: HttpClient, private route: ActivatedRoute, private datePipe: DatePipe, private dateAdd: DateAddPipe) { };
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private datePipe: DatePipe,
+    private dateAdd: DateAddPipe,
+    public dialog: MatDialog,
+  ) { };
   ngOnInit(): void {
     this.updateDate();
   }
@@ -75,7 +83,7 @@ export class DoctorScheduleComponent {
             begin: app.begin.substring(0, 5),
             end: app.end.substring(0, 5),
             text: '',
-            tooltip: app.patientId ? `patient ID: ${app.patientId} doctor: ${app.doctor}` : '',
+            tooltip: app.patientId ? `view appointment info` : '',
             disabled: app.patientId == null
           }
           return cdi;
@@ -121,5 +129,40 @@ export class DoctorScheduleComponent {
     //tempDate.setDate(this.date.getDate() + 7);
     this.date = this.dateAdd.transform(this.date, 7); //tempDate;
     this.updateDate();
+  }
+  displayAppointment(appId: number) {
+    const day = this.workDays.filter(
+      cd => cd.appointments.filter(
+        ap => ap.id == appId).length == 1
+    )[0];
+    const appointment = day.appointments.filter(
+      ap => ap.id == appId
+    )[0];
+    appointment.begin = appointment.begin.substring(0, 5);
+    appointment.end = appointment.end.substring(0, 5);
+    const message = `${this.datePipe.transform(day.date, "EEEE, dd/MM/yyyy")}
+${appointment.begin} - ${appointment.end}
+${appointment.patientName}, ID Number: ${appointment.patientId}
+Created on: ${this.datePipe.transform(appointment.createdDate, "EEEE, dd/MM/yyyy")}
+    
+Subject: ${appointment.subject ?? '(No Subject)'}
+Description:
+${appointment.description ?? '(No Description)'}`
+
+    //const message = `info about app: ${appId}`
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Appointment info',
+        body: message,
+        okText: 'Cancel this appointment',
+        cancelText: 'Close'
+      }
+    });
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (!result) return;
+        //this.cancelAppointment(appId);
+      }
+    )
   }
 }
