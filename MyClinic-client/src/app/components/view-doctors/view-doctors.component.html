@@ -20,7 +20,14 @@
 🩺🩺
 <hr>
 <h1>doctor icon <mat-icon svgIcon="doctor" color="accent"></mat-icon></h1> -->
-<h1>Doctors <mat-icon color="accent">group</mat-icon> <mat-icon color="primary">group</mat-icon></h1>
+<mat-list>
+    <div mat-subheader>Doctors</div>
+    <mat-list-item *ngFor="let d of doctors">
+      <mat-icon matListItemIcon>folder</mat-icon>
+      <div matListItemTitle>{{d.name}}</div>
+      <div matListItemLine>{{d.specialization}}</div>
+    </mat-list-item>
+  </mat-list>
 <table class="table table-info table-hover" *ngIf="doctors else loading">
     <thead>
         <tr>

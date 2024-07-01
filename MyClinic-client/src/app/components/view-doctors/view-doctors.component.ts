@@ -6,11 +6,19 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LoadingComponent } from "../loading/loading.component";
+import {MatListModule} from '@angular/material/list'
 
 @Component({
   selector: 'app-view-doctors',
   standalone: true,
-  imports: [MatIconModule, HttpClientModule, CommonModule, RouterModule, LoadingComponent],
+  imports: [
+    MatIconModule,
+    MatListModule,
+    HttpClientModule,
+    CommonModule,
+    RouterModule,
+    LoadingComponent
+  ],
   templateUrl: './view-doctors.component.html',
   styleUrl: './view-doctors.component.css'
 })
